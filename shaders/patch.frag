@@ -1,8 +1,8 @@
 #version 410
 // Fragment shader
 
-layout(location = 0) in vec3 vertcoords_fs;
-layout(location = 1) in vec3 vertnormal_fs;
+layout(location = 0) in vec3 vertcoords_te;
+layout(location = 1) in vec3 vertnormals_te;
 
 out vec4 fColor;
 
@@ -11,7 +11,7 @@ vec3 phongShading(vec3 matCol, vec3 coords, vec3 normal);
 
 void main() {
   vec3 matcolour = vec3(0.53, 0.80, 0.87);
-  vec3 col = phongShading(matcolour, vertcoords_fs, vertnormal_fs);
+  vec3 col = phongShading(matcolour, vertcoords_te, vertnormals_te);
   fColor = vec4(col, 1.0);
   // Quite hacky trick, but this makes sure that if the control mesh and the
   // tessellated mesh are very close to each other, the tessellated mesh is
