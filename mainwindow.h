@@ -29,7 +29,27 @@ class MainWindow : public QMainWindow {
 
   void on_HideMeshCheckBox_toggled(bool checked);
 
- private:
+  void on_outerTessLevel_valueChanged(int arg1);
+
+  void on_spinBox_2_valueChanged(int arg1);
+
+  void on_tessTypecomboBox_currentTextChanged(const QString &arg1);
+
+  void on_outerTessLevel0_valueChanged(int arg1);
+
+  void on_outerTessLevel1_valueChanged(int arg1);
+
+  void on_outerTessLevel2_valueChanged(int arg1);
+
+  void on_outerTessLevel3_valueChanged(int arg1);
+
+  void on_innerTessLevel0_valueChanged(int arg1);
+
+  void on_innerTessLevel1_valueChanged(int arg1);
+
+  void on_limitProjectioncheckBox_toggled(bool checked);
+
+private:
   void importOBJ(const QString &fileName);
 
   Ui::MainWindow *ui;

@@ -24,9 +24,15 @@ class Mesh {
   inline QVector<QVector3D>& getVertexNorms() { return vertexNormals; }
   inline QVector<unsigned int>& getPolyIndices() { return polyIndices; }
   inline QVector<unsigned int>& getQuadIndices() { return quadIndices; }
+  inline QVector<unsigned int>& getRegularQuadIndices() { return regularQuadIndices; }
+
 
   void extractAttributes();
   void recalculateNormals();
+  void updateRegularQuadIndices();
+  bool isEdgeRegularCandidate(HalfEdge* intermEdge);
+
+  QVector<unsigned int> orderQuadIndices(QVector<unsigned int> oldQuadIndices);
 
   int numVerts();
   int numHalfEdges();
@@ -39,6 +45,9 @@ class Mesh {
   QVector<unsigned int> polyIndices;
   // for quad tessellation
   QVector<unsigned int> quadIndices;
+  // for regular quad tessellation
+  QVector<unsigned int> regularQuadIndices;
+
 
   QVector<Vertex> vertices;
   QVector<Face> faces;

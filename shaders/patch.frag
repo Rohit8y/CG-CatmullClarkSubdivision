@@ -4,6 +4,9 @@
 layout(location = 0) in vec3 vertcoords_te;
 layout(location = 1) in vec3 vertnormals_te;
 
+//in vec3 vertcoords_te;
+//in vec3 vertnormals_te;
+
 out vec4 fColor;
 
 // Defined in shading.glsl

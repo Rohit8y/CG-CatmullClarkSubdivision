@@ -27,6 +27,7 @@ qt_add_executable(CatMarkSubdiv WIN32 MACOSX_BUNDLE
     mesh/vertex.cpp mesh/vertex.h
     renderers/meshrenderer.cpp renderers/meshrenderer.h
     renderers/tessrenderer.cpp renderers/tessrenderer.h
+    renderers/regularpatchtessrenderer.cpp renderers/regularpatchtessrenderer.h
     renderers/renderer.cpp renderers/renderer.h
     settings.h
     shadertypes.h

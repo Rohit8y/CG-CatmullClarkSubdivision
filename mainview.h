@@ -10,6 +10,8 @@
 #include "mesh/mesh.h"
 #include "renderers/meshrenderer.h"
 #include "renderers/tessrenderer.h"
+#include "renderers/regularpatchtessrenderer.h"
+
 
 /**
  * @brief The MainView class represents the main view of the UI. It handles and
@@ -25,6 +27,8 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_4_1_Core {
   void updateMatrices();
   void updateUniforms();
   void updateBuffers(Mesh& currentMesh);
+  void updateRegularMesh(Mesh currentMesh);
+
 
  protected:
   void initializeGL() override;
@@ -49,6 +53,7 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_4_1_Core {
 
   MeshRenderer meshRenderer;
   TessellationRenderer tessellationRenderer;
+  RegularPatchTessellationRenderer regularPatchTessellationRenderer;
 
   Settings settings;
 

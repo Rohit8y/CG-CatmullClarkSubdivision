@@ -20,11 +20,11 @@ CatmullClarkSubdivider::CatmullClarkSubdivider() {}
  * control mesh.
  */
 Mesh CatmullClarkSubdivider::subdivide(Mesh &mesh) const {
-  Mesh newMesh;
-  reserveSizes(mesh, newMesh);
-  geometryRefinement(mesh, newMesh);
-  topologyRefinement(mesh, newMesh);
-  return newMesh;
+    Mesh newMesh;
+    reserveSizes(mesh, newMesh);
+    geometryRefinement(mesh, newMesh);
+    topologyRefinement(mesh, newMesh);
+    return newMesh;
 }
 
 /**
@@ -35,16 +35,15 @@ Mesh CatmullClarkSubdivider::subdivide(Mesh &mesh) const {
  */
 void CatmullClarkSubdivider::reserveSizes(Mesh &controlMesh,
                                           Mesh &newMesh) const {
-  int newNumEdges = 2 * controlMesh.numEdges() + controlMesh.numHalfEdges();
-  int newNumFaces = controlMesh.numHalfEdges();
-  int newNumHalfEdges = controlMesh.numHalfEdges() * 4;
-  int newNumVerts =
-      controlMesh.numVerts() + controlMesh.numFaces() + controlMesh.numEdges();
+    int newNumEdges = 2 * controlMesh.numEdges() + controlMesh.numHalfEdges();
+    int newNumFaces = controlMesh.numHalfEdges();
+    int newNumHalfEdges = controlMesh.numHalfEdges() * 4;
+    int newNumVerts = controlMesh.numVerts() + controlMesh.numFaces() + controlMesh.numEdges();
 
-  newMesh.getVertices().resize(newNumVerts);
-  newMesh.getHalfEdges().resize(newNumHalfEdges);
-  newMesh.getFaces().resize(newNumFaces);
-  newMesh.edgeCount = newNumEdges;
+    newMesh.getVertices().resize(newNumVerts);
+    newMesh.getHalfEdges().resize(newNumHalfEdges);
+    newMesh.getFaces().resize(newNumFaces);
+    newMesh.edgeCount = newNumEdges;
 }
 
 /**
@@ -63,51 +62,51 @@ void CatmullClarkSubdivider::reserveSizes(Mesh &controlMesh,
  */
 void CatmullClarkSubdivider::geometryRefinement(Mesh &controlMesh,
                                                 Mesh &newMesh) const {
-  QVector<Vertex> &newVertices = newMesh.getVertices();
-  QVector<Vertex> &vertices = controlMesh.getVertices();
-  QVector<Face> &faces = controlMesh.getFaces();
+    QVector<Vertex> &newVertices = newMesh.getVertices();
+    QVector<Vertex> &vertices = controlMesh.getVertices();
+    QVector<Face> &faces = controlMesh.getFaces();
 
-  // Face Points
-  for (int f = 0; f < controlMesh.numFaces(); f++) {
-    QVector3D coords = facePoint(faces[f]);
-    int i = controlMesh.numVerts() + faces[f].index;
-    // Face points always inherit the valence of the face
-    Vertex facePoint(coords, nullptr, faces[f].valence, i);
-    newVertices[i] = facePoint;
-  }
-
-  // Edge Points
-  QVector<HalfEdge> &halfEdges = controlMesh.getHalfEdges();
-  for (int h = 0; h < controlMesh.numHalfEdges(); h++) {
-    HalfEdge currentEdge = halfEdges[h];
-    // Only create a new vertex per set of halfEdges (i.e. once per undirected
-    // edge)
-    if (h > currentEdge.twinIdx()) {
-      int v = controlMesh.numVerts() + controlMesh.numFaces() +
-              currentEdge.edgeIdx();
-      int valence;
-      QVector3D coords;
-      if (currentEdge.isBoundaryEdge()) {
-        coords = boundaryEdgePoint(currentEdge);
-        valence = 3;
-      } else {
-        coords = edgePoint(currentEdge);
-        valence = 4;
-      }
-      newVertices[v] = Vertex(coords, nullptr, valence, v);
+    // Face Points
+    for (int f = 0; f < controlMesh.numFaces(); f++) {
+        QVector3D coords = facePoint(faces[f]);
+        int i = controlMesh.numVerts() + faces[f].index;
+        // Face points always inherit the valence of the face
+        Vertex facePoint(coords, nullptr, faces[f].valence, i);
+        newVertices[i] = facePoint;
     }
-  }
 
-  // Vertex Points
-  for (int v = 0; v < controlMesh.numVerts(); v++) {
-    QVector3D coords;
-    if (vertices[v].isBoundaryVertex()) {
-      coords = boundaryVertexPoint(vertices[v]);
-    } else {
-      coords = vertexPoint(vertices[v]);
+    // Edge Points
+    QVector<HalfEdge> &halfEdges = controlMesh.getHalfEdges();
+    for (int h = 0; h < controlMesh.numHalfEdges(); h++) {
+        HalfEdge currentEdge = halfEdges[h];
+        // Only create a new vertex per set of halfEdges (i.e. once per undirected
+        // edge)
+        if (h > currentEdge.twinIdx()) {
+            int v = controlMesh.numVerts() + controlMesh.numFaces() +
+                    currentEdge.edgeIdx();
+            int valence;
+            QVector3D coords;
+            if (currentEdge.isBoundaryEdge()) {
+                coords = boundaryEdgePoint(currentEdge);
+                valence = 3;
+            } else {
+                coords = edgePoint(currentEdge);
+                valence = 4;
+            }
+            newVertices[v] = Vertex(coords, nullptr, valence, v);
+        }
     }
-    newVertices[v] = Vertex(coords, nullptr, vertices[v].valence, v);
-  }
+
+    // Vertex Points
+    for (int v = 0; v < controlMesh.numVerts(); v++) {
+        QVector3D coords;
+        if (vertices[v].isBoundaryVertex()) {
+            coords = boundaryVertexPoint(vertices[v]);
+        } else {
+            coords = vertexPoint(vertices[v]);
+        }
+        newVertices[v] = Vertex(coords, nullptr, vertices[v].valence, v);
+    }
 }
 
 /**
@@ -131,19 +130,19 @@ void CatmullClarkSubdivider::geometryRefinement(Mesh &controlMesh,
  * @return The coordinates of the new vertex point.
  */
 QVector3D CatmullClarkSubdivider::vertexPoint(const Vertex &vertex) const {
-  HalfEdge *edge = vertex.out;
-  QVector3D R;  // average of edge mid points
-  QVector3D Q;  // average of face points
-  for (int i = 0; i < vertex.valence; i++) {
-    R += (edge->origin->coords + edge->next->origin->coords) / 2.0;
-    Q += facePoint(*edge->face);
-    edge = edge->prev->twin;
-  }
-  float n = float(vertex.valence);
-  Q /= n;
-  R /= n;
-  // See Equation 1 of the aforementioned paper
-  return (Q + 2 * R + (vertex.coords * (n - 3.0f))) / n;
+    HalfEdge *edge = vertex.out;
+    QVector3D R;  // average of edge mid points
+    QVector3D Q;  // average of face points
+    for (int i = 0; i < vertex.valence; i++) {
+        R += (edge->origin->coords + edge->next->origin->coords) / 2.0;
+        Q += facePoint(*edge->face);
+        edge = edge->prev->twin;
+    }
+    float n = float(vertex.valence);
+    Q /= n;
+    R /= n;
+    // See Equation 1 of the aforementioned paper
+    return (Q + 2 * R + (vertex.coords * (n - 3.0f))) / n;
 }
 
 /**
@@ -165,10 +164,10 @@ QVector3D CatmullClarkSubdivider::vertexPoint(const Vertex &vertex) const {
  */
 QVector3D CatmullClarkSubdivider::boundaryVertexPoint(
     const Vertex &vertex) const {
-  QVector3D boundPoint = vertex.coords * 2;
-  boundPoint += boundaryEdgePoint(*vertex.nextBoundaryHalfEdge());
-  boundPoint += boundaryEdgePoint(*vertex.prevBoundaryHalfEdge());
-  return boundPoint / 4.0;
+    QVector3D boundPoint = vertex.coords * 2;
+    boundPoint += boundaryEdgePoint(*vertex.nextBoundaryHalfEdge());
+    boundPoint += boundaryEdgePoint(*vertex.prevBoundaryHalfEdge());
+    return boundPoint / 4.0;
 }
 
 /**
@@ -189,9 +188,9 @@ QVector3D CatmullClarkSubdivider::boundaryVertexPoint(
  * @return The coordinates of the new edge point.
  */
 QVector3D CatmullClarkSubdivider::edgePoint(const HalfEdge &edge) const {
-  QVector3D edgePt = boundaryEdgePoint(edge);
-  edgePt += (facePoint(*edge.face) + facePoint(*edge.twin->face)) / 2.0;
-  return edgePt /= 2.0;
+    QVector3D edgePt = boundaryEdgePoint(edge);
+    edgePt += (facePoint(*edge.face) + facePoint(*edge.twin->face)) / 2.0;
+    return edgePt /= 2.0;
 }
 
 /**
@@ -204,7 +203,7 @@ QVector3D CatmullClarkSubdivider::edgePoint(const HalfEdge &edge) const {
  */
 QVector3D CatmullClarkSubdivider::boundaryEdgePoint(
     const HalfEdge &edge) const {
-  return (edge.origin->coords + edge.next->origin->coords) / 2.0f;
+    return (edge.origin->coords + edge.next->origin->coords) / 2.0f;
 }
 
 /**
@@ -215,13 +214,14 @@ QVector3D CatmullClarkSubdivider::boundaryEdgePoint(
  * @return The coordinates of the new face point.
  */
 QVector3D CatmullClarkSubdivider::facePoint(const Face &face) const {
-  QVector3D edgePt;
-  HalfEdge *edge = face.side;
-  for (int side = 0; side < face.valence; side++) {
-    edgePt += edge->origin->coords;
-    edge = edge->next;
-  }
-  return edgePt / face.valence;
+    QVector3D edgePt;
+    HalfEdge *edge = face.side;
+
+    for (int side = 0; side < face.valence; side++) {
+        edgePt += edge->origin->coords;
+        edge = edge->next;
+    }
+    return edgePt / face.valence;
 }
 
 /**
@@ -233,43 +233,42 @@ QVector3D CatmullClarkSubdivider::facePoint(const Face &face) const {
  */
 void CatmullClarkSubdivider::topologyRefinement(Mesh &controlMesh,
                                                 Mesh &newMesh) const {
-  for (int f = 0; f < newMesh.numFaces(); ++f) {
-    newMesh.faces[f].index = f;
-    newMesh.faces[f].valence = 4;
-  }
+    for (int f = 0; f < newMesh.numFaces(); ++f) {
+        newMesh.faces[f].index = f;
+        newMesh.faces[f].valence = 4;
+    }
 
-  // Split halfedges
-  for (int h = 0; h < controlMesh.numHalfEdges(); ++h) {
-    HalfEdge *edge = &controlMesh.halfEdges[h];
+    // Split halfedges
+    for (int h = 0; h < controlMesh.numHalfEdges(); ++h) {
+        HalfEdge *edge = &controlMesh.halfEdges[h];
 
-    int h1 = 4 * h;
-    int h2 = 4 * h + 1;
-    int h3 = 4 * h + 2;
-    int h4 = 4 * h + 3;
+        int h1 = 4 * h;
+        int h2 = 4 * h + 1;
+        int h3 = 4 * h + 2;
+        int h4 = 4 * h + 3;
 
-    int twinIdx1 = edge->twinIdx() < 0 ? -1 : 4 * edge->twin->next->index + 3;
-    int twinIdx2 = 4 * edge->next->index + 2;
-    int twinIdx3 = 4 * edge->prev->index + 1;
-    int twinIdx4 = 4 * edge->prev->twinIdx();
+        int twinIdx1 = edge->twinIdx() < 0 ? -1 : 4 * edge->twin->next->index + 3;
+        int twinIdx2 = 4 * edge->next->index + 2;
+        int twinIdx3 = 4 * edge->prev->index + 1;
+        int twinIdx4 = 4 * edge->prev->twinIdx();
 
-    int vertIdx1 = edge->origin->index;
-    int vertIdx2 =
+        int vertIdx1 = edge->origin->index;
+        int vertIdx2 =
         controlMesh.numVerts() + controlMesh.numFaces() + edge->edgeIndex;
-    int vertIdx3 = controlMesh.numVerts() + edge->faceIdx();
-    int vertIdx4 =
+        int vertIdx3 = controlMesh.numVerts() + edge->faceIdx();
+        int vertIdx4 =
         controlMesh.numVerts() + controlMesh.numFaces() + edge->prev->edgeIndex;
 
-    int edgeIdx1 = 2 * edge->edgeIndex + (h > edge->twinIdx() ? 0 : 1);
-    int edgeIdx2 = 2 * controlMesh.numEdges() + h;
-    int edgeIdx3 = 2 * controlMesh.numEdges() + edge->prev->index;
-    int edgeIdx4 = 2 * edge->prev->edgeIndex +
-                   (edge->prevIdx() > edge->prev->twinIdx() ? 1 : 0);
+        int edgeIdx1 = 2 * edge->edgeIndex + (h > edge->twinIdx() ? 0 : 1);
+        int edgeIdx2 = 2 * controlMesh.numEdges() + h;
+        int edgeIdx3 = 2 * controlMesh.numEdges() + edge->prev->index;
+        int edgeIdx4 = 2 * edge->prev->edgeIndex + (edge->prevIdx() > edge->prev->twinIdx() ? 1 : 0);
 
-    setHalfEdgeData(newMesh, h1, edgeIdx1, vertIdx1, twinIdx1);
-    setHalfEdgeData(newMesh, h2, edgeIdx2, vertIdx2, twinIdx2);
-    setHalfEdgeData(newMesh, h3, edgeIdx3, vertIdx3, twinIdx3);
-    setHalfEdgeData(newMesh, h4, edgeIdx4, vertIdx4, twinIdx4);
-  }
+        setHalfEdgeData(newMesh, h1, edgeIdx1, vertIdx1, twinIdx1);
+        setHalfEdgeData(newMesh, h2, edgeIdx2, vertIdx2, twinIdx2);
+        setHalfEdgeData(newMesh, h3, edgeIdx3, vertIdx3, twinIdx3);
+        setHalfEdgeData(newMesh, h4, edgeIdx4, vertIdx4, twinIdx4);
+    }
 }
 
 /**
@@ -284,17 +283,17 @@ void CatmullClarkSubdivider::topologyRefinement(Mesh &controlMesh,
  */
 void CatmullClarkSubdivider::setHalfEdgeData(Mesh &newMesh, int h, int edgeIdx,
                                              int vertIdx, int twinIdx) const {
-  HalfEdge *halfEdge = &newMesh.halfEdges[h];
+    HalfEdge *halfEdge = &newMesh.halfEdges[h];
 
-  halfEdge->edgeIndex = edgeIdx;
-  halfEdge->index = h;
-  halfEdge->origin = &newMesh.vertices[vertIdx];
-  halfEdge->face = &newMesh.faces[halfEdge->faceIdx()];
-  halfEdge->next = &newMesh.halfEdges[halfEdge->nextIdx()];
-  halfEdge->prev = &newMesh.halfEdges[halfEdge->prevIdx()];
-  halfEdge->twin = twinIdx < 0 ? nullptr : &newMesh.halfEdges[twinIdx];
+    halfEdge->edgeIndex = edgeIdx;
+    halfEdge->index = h;
+    halfEdge->origin = &newMesh.vertices[vertIdx];
+    halfEdge->face = &newMesh.faces[halfEdge->faceIdx()];
+    halfEdge->next = &newMesh.halfEdges[halfEdge->nextIdx()];
+    halfEdge->prev = &newMesh.halfEdges[halfEdge->prevIdx()];
+    halfEdge->twin = twinIdx < 0 ? nullptr : &newMesh.halfEdges[twinIdx];
 
-  halfEdge->origin->out = halfEdge;
-  halfEdge->origin->index = vertIdx;
-  halfEdge->face->side = halfEdge;
+    halfEdge->origin->out = halfEdge;
+    halfEdge->origin->index = vertIdx;
+    halfEdge->face->side = halfEdge;
 }

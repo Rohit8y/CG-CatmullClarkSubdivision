@@ -7,6 +7,8 @@
         <file>shaders/patch.vert</file>
         <file>shaders/patch.frag</file>
         <file>shaders/shading.glsl</file>
+        <file>shaders/regularPatch_tcs.glsl</file>
+        <file>shaders/regularPatch_tes.glsl</file>
     </qresource>
     <qresource prefix="/models">
         <file alias="Suzanne.obj">models/SuzanneQuad.obj</file>

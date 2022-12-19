@@ -1,5 +1,7 @@
-#ifndef TESSRENDERER_H
-#define TESSRENDERER_H
+#ifndef REGULARPATCHTESSRENDERER_H
+#define REGULARPATCHTESSRENDERER_H
+
+
 
 #include <QOpenGLShaderProgram>
 
@@ -10,17 +12,17 @@
  * @brief The TessellationRenderer class is responsible for rendering
  * Tessellated patches.
  */
-class TessellationRenderer : public Renderer {
+class RegularPatchTessellationRenderer : public Renderer {
  public:
-  TessellationRenderer();
-  ~TessellationRenderer() override;
+  RegularPatchTessellationRenderer();
+  ~RegularPatchTessellationRenderer() override;
 
   void updateUniforms();
   void updateBuffers(Mesh& m);
   void draw();
 
  protected:
-  QOpenGLShaderProgram* constructTesselationShader(const QString& name) const;
+  QOpenGLShaderProgram* constructRegularPatchTesselationShader(const QString& name) const;
   void initShaders() override;
   void initBuffers() override;
 
@@ -28,7 +30,7 @@ class TessellationRenderer : public Renderer {
   GLuint vao;
   GLuint meshCoordsBO, meshNormalsBO, meshIndexBO;
   int meshIBOSize;
-  QOpenGLShaderProgram* tessellationShader;
+  QOpenGLShaderProgram* regularPatchTessellationShader;
 
   // Uniforms
   GLint uniModelViewMatrix, uniProjectionMatrix, uniNormalMatrix;
@@ -38,4 +40,4 @@ class TessellationRenderer : public Renderer {
   GLfloat uniTessInnerLevel0, uniTessInnerLevel1;
 };
 
-#endif  // TessRenderer_H
+#endif // REGULARPATCHTESSRENDERER_H
