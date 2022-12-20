@@ -161,8 +161,6 @@ void Mesh::updateRegularQuadIndices(){
         }
     }
     regularQuadIndices.squeeze();
-    qDebug() << "Total regular quads: " << regularQuadIndices.size();
-
 }
 
 /**

@@ -32,9 +32,6 @@ void main() {
     gl_TessLevelInner[1] = innerTessLevel1;
   }
 
-  // simply pass through everything. Note that you can also simply use the
-  // coords and normals using the layout in the next stage, in which case this
-  // statement is not needed.
   gl_out[gl_InvocationID].gl_Position = gl_in[gl_InvocationID].gl_Position;
 
   vertcoords_tc[gl_InvocationID] = vertcoords_vs[gl_InvocationID];
