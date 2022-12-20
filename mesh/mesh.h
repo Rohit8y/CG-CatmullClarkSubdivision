@@ -60,6 +60,7 @@ class Mesh {
   friend class MeshInitializer;
   friend class Subdivider;
   friend class CatmullClarkSubdivider;
+  friend class LimitPositionSubdivider;
 };
 
 #endif  // MESH_H

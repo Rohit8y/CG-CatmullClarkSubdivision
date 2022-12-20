@@ -6,6 +6,8 @@
 
 #include "mesh/mesh.h"
 #include "subdivision/subdivider.h"
+#include "subdivision/limitprojectionsubdivider.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -55,6 +57,7 @@ private:
   Ui::MainWindow *ui;
   Subdivider *subdivider;
   QVector<Mesh> meshes;
+  Mesh limitProjectionMesh;
 };
 
 #endif  // MAINWINDOW_H

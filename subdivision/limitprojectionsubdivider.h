@@ -18,8 +18,8 @@ class LimitPositionSubdivider : public Subdivider {
         void geometryRefinement(Mesh& mesh) const;
 
         QVector3D facePoint(const Face& face) const;
-        QVector3D boundaryVertexPoint(const Vertex& vertex) const;
-        QVector3D vertexPoint_LimitPosition(const Vertex& vertex) const;
+        QVector3D getBoundaryVertexPos(const Vertex& vertex) const;
+        QVector3D vertexPointLimitProjection(const Vertex& vertex) const;
 };
 
 #endif // LIMITPROJECTIONSUBDIVIDER_H
