@@ -18,6 +18,7 @@ typedef struct Settings {
   bool showCpuMesh = true;
   bool showAllPatchTessellation = true;
   bool showOnlyRegularTessellation = false;
+  bool showLimitProjection = false;
 
   float FoV = 80;
   float dispRatio = 16.0f / 9.0f;

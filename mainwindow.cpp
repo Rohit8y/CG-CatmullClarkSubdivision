@@ -152,6 +152,10 @@ void MainWindow::on_innerTessLevel1_valueChanged(int val)
 
 void MainWindow::on_limitProjectioncheckBox_toggled(bool checked)
 {
+    ui->MainDisplay->settings.showLimitProjection = checked;
+    if (checked){
+
+    }
 
 }
 // Trivial functions

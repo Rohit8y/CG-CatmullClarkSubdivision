@@ -33,6 +33,8 @@ qt_add_executable(CatMarkSubdiv WIN32 MACOSX_BUNDLE
     shadertypes.h
     subdivision/subdivider.cpp
     subdivision/catmullclarksubdivider.cpp subdivision/catmullclarksubdivider.h
+    subdivision/limitprojectionsubdivider.cpp subdivision/limitprojectionsubdivider.h
+
     subdivision/subdivider.h
     util/util.h util/util.cpp
     resources.qrc
