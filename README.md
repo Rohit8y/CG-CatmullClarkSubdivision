@@ -29,7 +29,7 @@ The results of regular patch tessellation for spot and brick model is given belo
 <img src="screenshots/MA2/spot_regularPatches.png" alt="drawing" width="500"/>     <img src="screenshots/MA2/brick_regularPatches.png" alt="drawing" width="500"/>  
   
 ## B : Control tessellation levels
-All the 4 outer tessellation levels,edge wise can be changed from UI, and both the inner tessellation levels for horizontal and vertical  tessellation can also be changed from UI. The default value for outer and inner tessellation level is 4. Uniforms are used in the Tessellation Control Shaders for this purpose.
+All the 4 outer tessellation levels,edge wise can be changed from UI, and both the inner tessellation levels for horizontal and vertical  tessellation can also be changed from UI. The default value for outer and inner tessellation level is 4. Uniforms are used in the Tessellation Control Shader (TCS) for this purpose.
 
 The example below for openCube model has all outer Tessellation levels 15 and both inner levels are 20. Again, these values can be changed from UI.
 
